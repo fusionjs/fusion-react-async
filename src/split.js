@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import prepared from './prepared.js';
 
-// TODO: Dry this up
+// TODO(#6): Dry this up
 const CHUNKS_KEY = '__CHUNK_IDS';
 
 const contextTypes = {
   splitComponentLoaders: PropTypes.array.isRequired,
 };
 
-// TODO: Figure out what we are going to do with chunks/preloading
+// TODO(#7): Figure out what we are going to do with chunks/preloading
 if (__NODE__) {
   contextTypes.preloadChunks = PropTypes.array.isRequired;
 }
@@ -65,7 +65,7 @@ export default function withAsyncComponent({
 
       return Promise.all(loadPromises)
         .then(([asyncComponent]) => {
-          // TODO .default is toolchain specific, breaks w/ CommonJS exports
+          // TODO(#8) .default is toolchain specific, breaks w/ CommonJS exports
           AsyncComponent = asyncComponent.default;
         })
         .catch(err => {

@@ -25,7 +25,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       }
     }
 
-    // // TODO: Figure out if we want to run prepare on componentWillReceiveProps
+    // // TODO(#5): Figure out if we want to run prepare on componentWillReceiveProps
     // componentWillReceiveProps(nextProps, nextContext) {
     //   if (componentWillReceiveProps) {
     //     prepare(nextProps, nextContext);

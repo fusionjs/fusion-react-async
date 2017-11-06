@@ -54,7 +54,7 @@ function prepareElement(element, context) {
   });
 }
 
-// TODO We can optimize this algorithm I think
+// TODO(#4) We can optimize this algorithm I think
 function _prepare(element, context) {
   return prepareElement(element, context).then(([children, childContext]) => {
     return Promise.all(
