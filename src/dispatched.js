@@ -1,0 +1,22 @@
+import PropTypes from 'prop-types';
+
+import prepared from './prepared';
+
+const storeShape = PropTypes.shape({
+  dispatch: PropTypes.func.isRequired,
+});
+
+const dispatched = (prepareUsingDispatch, opts = {}) => OriginalComponent => {
+  const prepare = (props, context) => {
+    return prepareUsingDispatch(props, context.store.dispatch);
+  };
+  const contextTypes = Object.assign(
+    {},
+    opts && opts.contextTypes ? opts.contextTypes : {},
+    {store: storeShape}
+  );
+  const preparedOpts = Object.assign({}, opts, {contextTypes});
+  return prepared(prepare, preparedOpts)(OriginalComponent);
+};
+
+export default dispatched;
