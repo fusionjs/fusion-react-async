@@ -1,0 +1,55 @@
+{
+  "name": "fusion-react-async",
+  "version": "0.1.4",
+  "description": "Prepare you app state for async rendering",
+  "repository": "fusionjs/fusion-react-async",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/node.cjs.js",
+  "module": "./dist/node.es.js",
+  "browser": {
+    "./dist/node.cjs.js": "./dist/browser.cjs.js",
+    "./dist/node.es.js": "./dist/browser.es.js"
+  },
+  "es2015": {
+    "./dist/node.cjs.js": "./dist/node.cjs.es2015.js",
+    "./dist/node.es.js": "./dist/node.es.es2015.js",
+    "./dist/browser.cjs.js": "./dist/browser.cjs.es2015.js",
+    "./dist/browser.es.js": "./dist/browser.es.es2015.js"
+  },
+  "scripts": {
+    "lint": "eslint . --ignore-path .gitignore",
+    "build-test": "cup build-tests",
+    "just-test": "node dist-tests/node.js",
+    "clean": "rm -rf dist",
+    "transpile": "npm run clean && cup build",
+    "prepublish": "npm run clean && npm run transpile",
+    "test": "npm run build-test && npm run just-test"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.0",
+    "babel-preset-react": "^6.24.1",
+    "create-universal-package": "^1.0.0-rc.14",
+    "eslint": "^4.2.0",
+    "eslint-config-fusion": "^0.1.2",
+    "eslint-plugin-cup": "^1.0.0-rc.4",
+    "eslint-plugin-flowtype": "^2.35.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-react": "^7.1.0",
+    "prettier": "1.4.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "tape-cup": "^4.7.1"
+  },
+  "peerDependencies": {
+    "react": "14.x - 16.x",
+    "react-dom": "14.x - 16.x"
+  },
+  "engines": {
+    "node": ">= 8.9.0"
+  }
+}
