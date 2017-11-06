@@ -113,10 +113,10 @@ import {split} from 'fusion-react-async';
 const Component = split({load, LoadingComponent, ErrorComponent});
 ```
 
-- `load: () => Promise` - Load a component asynchronously. Typically, this should make a dynamic `import()` call.
+- `load: () => Promise` - Required. Load a component asynchronously. Typically, this should make a dynamic `import()` call.
   The Fusion compiler takes care of bundling the appropriate code and de-duplicating dependencies. The argument to `import` should be a string literal (not a variable). See [webpack docs](https://webpack.js.org/api/module-methods/#import-) for more information.
-- `LoadingComponent` - A component to be displayed while the asynchronous component hasn't downloaded
-- `ErrorComponent` - A component to be displayed if the asynchronous component could not be loaded
+- `LoadingComponent` - Required. A component to be displayed while the asynchronous component hasn't downloaded
+- `ErrorComponent` - Required. A component to be displayed if the asynchronous component could not be loaded
 - `Component` - A placeholder component that can be used in your view which will show the asynchronous component
 
 #### prepare
@@ -144,7 +144,7 @@ import {prepared} from 'fusion-react-async';
 const hoc = prepared(sideEffect, opts);
 ```
 
-- `sideEffect: : (props: Object, context: Object) => Promise` - when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
+- `sideEffect: : (props: Object, context: Object) => Promise` - Required. when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
 - `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, forceUpdate, contextTypes}` - Optional
   - `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
   - `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
@@ -153,6 +153,7 @@ const hoc = prepared(sideEffect, opts);
   - `forceUpdate: boolean` - Optional. Defaults to `false`.
   - `contextTypes: Object` - Optional. Custom React context types to add to the prepared component.
 - `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering
+  - `Component: React.Component` - Required.
 
 #### exclude
 
@@ -162,7 +163,7 @@ import {exclude} from 'fusion-react-async';
 const NewComponent = exclude(Component);
 ```
 
-- `Component: React.Component` - A component that should not be traversed via `prepare`.
+- `Component: React.Component` - Required. A component that should not be traversed via `prepare`.
 - `NewComponent: React.Component` - A component that is excluded from `prepare` traversal.
 
 Stops `prepare` traversal at `Component`. Useful for optimizing the `prepare` traversal to visit the minimum number of nodes.
