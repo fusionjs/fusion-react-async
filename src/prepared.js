@@ -19,7 +19,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       if (opts.componentDidMount) {
         Promise.resolve(prepare(this.props, this.context)).then(() => {
           if (opts.forceUpdate) {
-            this.forceUpdate();
+            this.forceUpdate(); // TODO(#10) document
           }
         });
       }
