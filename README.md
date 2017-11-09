@@ -1,5 +1,7 @@
 # fusion-react-async
 
+[![Build status](https://badge.buildkite.com/7037953b28b5737bad5844360b3ceef38b3aab09b6fd31587d.svg?branch=master)](https://buildkite.com/uberopensource/fusion-react-async)
+
 This package allows you to have you deeply nested components with asynchronous dependencies, and have everything just work with server-side rendering.
 
 The typical use-case is when a deeply-nested component needs to have a resource fetched from a remote HTTP server, such as GraphQL or REST API. Since `renderToString` is synchronous, when you call it on your app, this component won't render correctly.
