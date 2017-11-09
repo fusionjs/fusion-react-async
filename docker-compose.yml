@@ -1,0 +1,9 @@
+version: '2'
+services:
+  fusion-react-async:
+    build: .
+    volumes:
+      - .:/fusion-react-async
+      - /fusion-react-async/node_modules/
+      - /fusion-react-async/dist/
+      - /fusion-react-async/dist-tests/
