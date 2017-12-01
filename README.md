@@ -105,7 +105,7 @@ import {PreparePlugin} from 'fusion-react-async';
 
 A plugin that adds a `PrepareProvider` to the React tree.
 
-You should consider using [`fusion-react`](../fusion-react) instead of  setting up React and registering this plugin manually, since that package does all of that for you.
+You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React and registering this plugin manually, since that package does all of that for you.
 
 #### split
 
@@ -132,7 +132,7 @@ const Component = prepare(element)
 - `Element: React.Element` - Required. A React element created via `React.createElement`
 - `Component: React.Component` - A React component
 
-You should consider using [`fusion-react`](../fusion-react) instead of  setting up React manually and calling `prepare` directly, since that package does all of that for you.
+You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React manually and calling `prepare` directly, since that package does all of that for you.
 
 The `prepare` function recursively traverses the element rendering tree and awaits the side effects of components decorated with `prepared` (or `dispatched`).
 
