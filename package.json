@@ -41,6 +41,7 @@
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.59.0",
+    "nyc": "^11.3.0",
     "prettier": "1.4.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
