@@ -2,9 +2,9 @@
 import tape from 'tape-cup';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
-import {split} from '../../../index.js';
-import {REACT_PREPARE} from '../../../constants.js';
-import Provider from '../../../prepare-provider';
+import {split} from "../../index.js";
+import {REACT_PREPARE} from "../../constants.js";
+import Provider from "../../prepare-provider";
 
 tape('Preparing an app with an async component', t => {
   function DeferredComponent() {
