@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import tape from 'tape-cup';
 import React, {Component} from 'react';
-import {prepare, prepared} from '../../../index.js';
+import {prepare, prepared} from '../../index.js';
 
 tape('Preparing a sync app', t => {
   let numConstructors = 0;
