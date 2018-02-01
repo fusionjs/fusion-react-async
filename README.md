@@ -97,15 +97,15 @@ export default () => (
 
 ### API
 
-#### PreparePlugin
+#### middleware
 
 ```js
-import {PreparePlugin} from 'fusion-react-async';
+import {middleware} from 'fusion-react-async';
 ```
 
-A plugin that adds a `PrepareProvider` to the React tree.
+A middleware that adds a `PrepareProvider` to the React tree.
 
-You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React and registering this plugin manually, since that package does all of that for you.
+You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React and registering this middleware manually, since that package does all of that for you.
 
 #### split
 
