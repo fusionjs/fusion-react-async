@@ -1,10 +1,16 @@
+/** Copyright (c) 2018 Uber Technologies, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /* eslint-disable react/no-multi-comp */
 import tape from 'tape-cup';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
-import {split} from '../../../index.js';
-import {REACT_PREPARE} from '../../../constants.js';
-import Provider from '../../../prepare-provider';
+import {split} from '../../index.js';
+import {REACT_PREPARE} from '../../constants.js';
+import Provider from '../../prepare-provider';
 
 tape('Preparing an app with an async component', t => {
   function DeferredComponent() {
