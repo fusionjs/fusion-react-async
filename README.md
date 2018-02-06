@@ -2,7 +2,7 @@
 
 [![Build status](https://badge.buildkite.com/7037953b28b5737bad5844360b3ceef38b3aab09b6fd31587d.svg?branch=master)](https://buildkite.com/uberopensource/fusion-react-async)
 
-This package allows you to have you deeply nested components with asynchronous dependencies, and have everything just work with server-side rendering.
+This package allows you to have deeply nested components with asynchronous dependencies and have everything just work with server-side rendering.
 
 The typical use-case is when a deeply-nested component needs to have a resource fetched from a remote HTTP server, such as GraphQL or REST API. Since `renderToString` is synchronous, when you call it on your app, this component won't render correctly.
 
@@ -105,7 +105,7 @@ import {middleware} from 'fusion-react-async';
 
 A middleware that adds a `PrepareProvider` to the React tree.
 
-You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React and registering this middleware manually, since that package does all of that for you.
+Consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of setting up React and registering this middleware manually, since that package does all of that for you.
 
 #### split
 
@@ -132,7 +132,7 @@ const Component = prepare(element)
 - `Element: React.Element` - Required. A React element created via `React.createElement`
 - `Component: React.Component` - A React component
 
-You should consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of  setting up React manually and calling `prepare` directly, since that package does all of that for you.
+Consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of setting up React manually and calling `prepare` directly, since that package does all of that for you.
 
 The `prepare` function recursively traverses the element rendering tree and awaits the side effects of components decorated with `prepared` (or `dispatched`).
 
