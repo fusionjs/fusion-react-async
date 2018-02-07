@@ -64,9 +64,9 @@ function prepareElement(element, context) {
 function _prepare(element, context) {
   return prepareElement(element, context).then(([children, childContext]) => {
     return Promise.all(
-      React.Children
-        .toArray(children)
-        .map(child => _prepare(child, childContext))
+      React.Children.toArray(children).map(child =>
+        _prepare(child, childContext)
+      )
     );
   });
 }

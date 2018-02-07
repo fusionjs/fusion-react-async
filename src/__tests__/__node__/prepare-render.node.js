@@ -59,11 +59,7 @@ tape('Preparing a sync app with nested children', t => {
     }
     render() {
       numRenders++;
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      );
+      return <div>{this.props.children}</div>;
     }
   }
   function SimplePresentational() {
@@ -98,11 +94,7 @@ tape(
         'sets __IS_PREPARE__ to true in context'
       );
       numRenders++;
-      return (
-        <div>
-          {props.children}
-        </div>
-      );
+      return <div>{props.children}</div>;
     }
     function SimplePresentational() {
       numChildRenders++;
