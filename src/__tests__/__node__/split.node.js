@@ -24,21 +24,23 @@ tape('Preparing an app with an async component', t => {
     ErrorComponent,
   });
 
-  const contextualized = <Provider preloadChunks={[]}><ToTest /></Provider>;
+  const contextualized = (
+    <Provider preloadChunks={[]}>
+      <ToTest />
+    </Provider>
+  );
 
   t.ok(/Loading/.test(renderToString(contextualized)), 'starts off loading');
-  ToTest[REACT_PREPARE]
-    .prepare(
-      {},
-      {
-        preloadChunks: [],
-        splitComponentLoaders: [],
-      }
-    )
-    .then(function() {
-      t.ok(/Loaded/.test(renderToString(contextualized)), 'ends loaded');
-      t.end();
-    });
+  ToTest[REACT_PREPARE].prepare(
+    {},
+    {
+      preloadChunks: [],
+      splitComponentLoaders: [],
+    }
+  ).then(function() {
+    t.ok(/Loaded/.test(renderToString(contextualized)), 'ends loaded');
+    t.end();
+  });
 });
 
 tape('Preparing an app with an errored async component', t => {
@@ -56,19 +58,21 @@ tape('Preparing an app with an errored async component', t => {
     ErrorComponent,
   });
 
-  const contextualized = <Provider preloadChunks={[]}><ToTest /></Provider>;
+  const contextualized = (
+    <Provider preloadChunks={[]}>
+      <ToTest />
+    </Provider>
+  );
 
   t.ok(/Loading/.test(renderToString(contextualized)), 'starts off loading');
-  ToTest[REACT_PREPARE]
-    .prepare(
-      {},
-      {
-        preloadChunks: [],
-        splitComponentLoaders: [],
-      }
-    )
-    .then(function() {
-      t.ok(/Failed/.test(renderToString(contextualized)), 'ends failed');
-      t.end();
-    });
+  ToTest[REACT_PREPARE].prepare(
+    {},
+    {
+      preloadChunks: [],
+      splitComponentLoaders: [],
+    }
+  ).then(function() {
+    t.ok(/Failed/.test(renderToString(contextualized)), 'ends failed');
+    t.end();
+  });
 });
