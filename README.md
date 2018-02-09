@@ -29,7 +29,7 @@ import UserAPI from './api'
 export default () => {
   const app = new App(<Example />);
 
-  app.plugin(UserAPI);
+  app.register(UserAPI);
 
   return app;
 }
@@ -44,12 +44,18 @@ function Example({name}) {
 export default prepared(() => fetch('/api/user/1'));
 
 // src/api.js
-export default () => (ctx, next) => {
-  if (ctx.path === '/api/user/1') {
-    ctx.body = {name: 'Bob'};
+import {createPlugin} from 'fusion-core';
+
+export default createPlugin({
+  middleware() {
+    return (ctx, next) => {
+      if (ctx.path === '/api/user/1') {
+        ctx.body = {name: 'Bob'};
+      }
+      return next();
+    };
   }
-  return next();
-}
+});
 ```
 
 #### Bundle splitting
