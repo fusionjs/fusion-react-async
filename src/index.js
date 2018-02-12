@@ -4,6 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @flow
 import dispatched from './dispatched';
 import prepare from './prepare';
 import prepared from './prepared';
