@@ -1,6 +1,6 @@
 {
   "name": "fusion-react-async",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prepare you app state for async rendering",
   "repository": "fusionjs/fusion-react-async",
   "files": [
