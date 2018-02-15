@@ -12,7 +12,7 @@ import {split} from '../../index.js';
 import {REACT_PREPARE} from '../../constants.js';
 import Provider from '../../prepare-provider';
 
-tape.only('Preparing an app with an async component', async t => {
+tape('Preparing an app with an async component', async t => {
   function DeferredComponent() {
     return <div>Loaded</div>;
   }
