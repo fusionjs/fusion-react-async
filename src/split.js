@@ -28,7 +28,7 @@ export default function withAsyncComponent({
 }) {
   let AsyncComponent = null;
   let error = null;
-  let chunkIds = null;
+  let chunkIds = [];
 
   function WithAsyncComponent(props) {
     if (error) {
@@ -56,9 +56,9 @@ export default function withAsyncComponent({
       } catch (e) {
         componentPromise = Promise.reject(e);
       }
-      chunkIds = componentPromise[CHUNKS_KEY];
+      chunkIds = componentPromise[CHUNKS_KEY] || [];
 
-      if (__NODE__ && chunkIds instanceof Array) {
+      if (__NODE__) {
         chunkIds.forEach(chunkId => {
           context.preloadChunks.push(chunkId);
         });

@@ -12,7 +12,7 @@ import {split} from '../../index.js';
 import {REACT_PREPARE} from '../../constants.js';
 import Provider from '../../prepare-provider';
 
-tape('Preparing an app with an async component', t => {
+tape('Preparing an app with an async component', async t => {
   function DeferredComponent() {
     return <div>Loaded</div>;
   }
@@ -37,16 +37,26 @@ tape('Preparing an app with an async component', t => {
   );
 
   t.ok(/Loading/.test(renderToString(contextualized)), 'starts off loading');
-  ToTest[REACT_PREPARE].prepare(
+  await ToTest[REACT_PREPARE].prepare(
     {},
     {
       preloadChunks: [],
       splitComponentLoaders: [],
     }
-  ).then(function() {
-    t.ok(/Loaded/.test(renderToString(contextualized)), 'ends loaded');
-    t.end();
-  });
+  );
+  t.ok(/Loaded/.test(renderToString(contextualized)), 'ends loaded');
+  try {
+    await ToTest[REACT_PREPARE].prepare(
+      {},
+      {
+        preloadChunks: [],
+        splitComponentLoaders: [],
+      }
+    );
+  } catch (e) {
+    t.ifError(e, 'should not error');
+  }
+  t.end();
 });
 
 tape('Preparing an app with an errored async component', t => {
