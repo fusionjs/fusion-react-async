@@ -157,7 +157,7 @@ const hoc = prepared(sideEffect, opts);
   - `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
   - `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
   - `componentDidMount: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called when the component is mounted.
-  - `componentWillReceiveProps: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called again whenever the component receive props.
+  - `componentWillReceiveProps: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again whenever the component receive props.
   - `forceUpdate: boolean` - Optional. Defaults to `false`.
   - `contextTypes: Object` - Optional. Custom React context types to add to the prepared component.
 - `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering

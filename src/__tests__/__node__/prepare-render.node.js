@@ -7,7 +7,11 @@
 /* eslint-disable react/no-multi-comp */
 import tape from 'tape-cup';
 import React, {Component} from 'react';
+import Enzyme, {shallow} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import {prepare, prepared} from '../../index.js';
+
+Enzyme.configure({adapter: new Adapter()});
 
 tape('Preparing a sync app', t => {
   let numConstructors = 0;
@@ -323,6 +327,62 @@ tape('Rendering a component triggers componentWillMount before render', t => {
   p.then(() => {
     t.deepEqual(orderedMethodCalls, ['componentWillMount', 'render']);
     t.deepEqual(orderedChildMethodCalls, ['componentWillMount', 'render']);
+    t.end();
+  });
+});
+
+tape('Preparing an async app with componentWillReceiveProps option', t => {
+  let numConstructors = 0;
+  let numRenders = 0;
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  class SimpleComponent extends Component {
+    constructor(props, context) {
+      super(props, context);
+      t.equal(
+        context.__IS_PREPARE__,
+        true,
+        'sets __IS_PREPARE__ to true in context'
+      );
+      numConstructors++;
+    }
+    render() {
+      numRenders++;
+      return <SimplePresentational />;
+    }
+  }
+  function SimplePresentational() {
+    numChildRenders++;
+    return <div>Hello World</div>;
+  }
+  const AsyncParent = prepared(
+    props => {
+      numPrepares++;
+      t.equal(
+        props.data,
+        'test',
+        'passes props through to prepared component correctly'
+      );
+      return Promise.resolve();
+    },
+    {
+      componentWillReceiveProps: true,
+    }
+  )(SimpleComponent);
+  const app = <AsyncParent data="test" />;
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 1, 'runs the prepare function once');
+    t.equal(numConstructors, 1, 'constructs SimpleComponent once');
+    t.equal(numRenders, 1, 'renders SimpleComponent once');
+    t.equal(numChildRenders, 1, 'renders SimplePresentational once');
+    // triggers componentDidMount
+    const wrapper = shallow(app);
+    t.equal(numPrepares, 2, 'runs prepare on componentDidMount');
+    // triggers componentWillReceiveProps
+    wrapper.setProps({test: true});
+    t.equal(numPrepares, 3, 'runs prepare on componentWillReceiveProps');
     t.end();
   });
 });
