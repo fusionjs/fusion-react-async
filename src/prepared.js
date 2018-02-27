@@ -14,7 +14,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       boundary: false,
       defer: false,
       componentDidMount: true,
-      componentWillReceiveProps: true,
+      componentWillReceiveProps: false,
       contextTypes: {},
       forceUpdate: false,
     },
@@ -31,12 +31,11 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       }
     }
 
-    // // TODO(#5): Figure out if we want to run prepare on componentWillReceiveProps
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //   if (componentWillReceiveProps) {
-    //     prepare(nextProps, nextContext);
-    //   }
-    // }
+    componentWillReceiveProps(nextProps, nextContext) {
+      if (opts.componentWillReceiveProps) {
+        prepare(nextProps, nextContext);
+      }
+    }
 
     render() {
       return <OriginalComponent {...this.props} />;
