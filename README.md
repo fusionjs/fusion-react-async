@@ -41,7 +41,7 @@ function Example({name}) {
   return <div>Hello, {name}</div>;
 }
 
-export default prepared(() => fetch('/api/user/1'));
+export default prepared(() => fetch('/api/user/1'))(Example);
 
 // src/api.js
 import {createPlugin} from 'fusion-core';
