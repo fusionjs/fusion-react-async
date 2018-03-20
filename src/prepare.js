@@ -9,10 +9,10 @@ import React from 'react';
 import isReactCompositeComponent from './utils/isReactCompositeComponent';
 import {isPrepared, getPrepare} from './prepared';
 
-function renderCompositeElementInstance(instance, context = {}) {
+function renderCompositeElementInstance(instance) {
   const childContext = Object.assign(
     {},
-    context,
+    instance.context,
     instance.getChildContext ? instance.getChildContext() : {}
   );
   if (instance.componentWillMount) {
@@ -22,16 +22,16 @@ function renderCompositeElementInstance(instance, context = {}) {
   return [children, childContext];
 }
 
-function prepareCompositeElement({type, props}, context) {
-  if (!isPrepared(type)) {
+function prepareComponentInstance(instance) {
+  if (!isPrepared(instance)) {
     return Promise.resolve({});
   }
-  const prepareConfig = getPrepare(type);
+  const prepareConfig = getPrepare(instance);
   // If the component is deferred, skip the prepare step
   if (prepareConfig.defer) {
     return Promise.resolve(prepareConfig);
   }
-  return prepareConfig.prepare(props, context).then(() => {
+  return prepareConfig.prepare(instance.props, instance.context).then(() => {
     return prepareConfig;
   });
 }
@@ -47,16 +47,16 @@ function prepareElement(element, context) {
   if (!isReactCompositeComponent(type)) {
     return Promise.resolve([type(props, context), context]);
   }
-  return prepareCompositeElement(element, context).then(prepareConfig => {
+  const CompositeComponent = type;
+  const instance = new CompositeComponent(props, context);
+  instance.props = props;
+  instance.context = context;
+  return prepareComponentInstance(instance, context).then(prepareConfig => {
     // Stop traversing if the component is defer or boundary
     if (prepareConfig.defer || prepareConfig.boundary) {
       return Promise.resolve([null, context]);
     }
-    const CompositeComponent = type;
-    return renderCompositeElementInstance(
-      new CompositeComponent(props, context),
-      context
-    );
+    return renderCompositeElementInstance(instance);
   });
 }
 
