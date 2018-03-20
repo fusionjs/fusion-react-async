@@ -8,6 +8,7 @@
 import './__node__/prepare-render.node.js';
 import './__node__/prepare-context.node.js';
 import './__node__/split.node.js';
+import './__node__/context.node.js';
 
 process.on('unhandledRejection', e => {
   throw e;

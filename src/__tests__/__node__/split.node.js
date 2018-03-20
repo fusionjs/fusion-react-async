@@ -8,9 +8,8 @@
 import tape from 'tape-cup';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
-import {split} from '../../index.js';
-import {REACT_PREPARE} from '../../constants.js';
 import Provider from '../../prepare-provider';
+import {prepare, split} from '../../index.js';
 
 tape('Preparing an app with an async component', async t => {
   function DeferredComponent() {
@@ -24,42 +23,32 @@ tape('Preparing an app with an async component', async t => {
   }
 
   const ToTest = split({
-    defer: true,
+    defer: false,
     load: () => Promise.resolve({default: DeferredComponent}),
     LoadingComponent,
     ErrorComponent,
   });
 
-  const contextualized = (
+  const app = (
     <Provider preloadChunks={[]}>
       <ToTest />
     </Provider>
   );
 
-  t.ok(/Loading/.test(renderToString(contextualized)), 'starts off loading');
-  await ToTest[REACT_PREPARE].prepare(
-    {},
-    {
-      preloadChunks: [],
-      splitComponentLoaders: [],
-    }
-  );
-  t.ok(/Loaded/.test(renderToString(contextualized)), 'ends loaded');
+  t.ok(/Loading/.test(renderToString(app)), 'starts off loading');
+
+  await prepare(app);
+
+  t.ok(/Loaded/.test(renderToString(app)), 'ends loaded');
   try {
-    await ToTest[REACT_PREPARE].prepare(
-      {},
-      {
-        preloadChunks: [],
-        splitComponentLoaders: [],
-      }
-    );
+    await prepare(app);
   } catch (e) {
     t.ifError(e, 'should not error');
   }
   t.end();
 });
 
-tape('Preparing an app with an errored async component', t => {
+tape('Preparing an app with an errored async component', async t => {
   function LoadingComponent() {
     return <div>Loading</div>;
   }
@@ -68,27 +57,20 @@ tape('Preparing an app with an errored async component', t => {
   }
 
   const ToTest = split({
-    defer: true,
+    defer: false,
     load: () => Promise.reject(new Error('failed')),
     LoadingComponent,
     ErrorComponent,
   });
 
-  const contextualized = (
+  const app = (
     <Provider preloadChunks={[]}>
       <ToTest />
     </Provider>
   );
 
-  t.ok(/Loading/.test(renderToString(contextualized)), 'starts off loading');
-  ToTest[REACT_PREPARE].prepare(
-    {},
-    {
-      preloadChunks: [],
-      splitComponentLoaders: [],
-    }
-  ).then(function() {
-    t.ok(/Failed/.test(renderToString(contextualized)), 'ends failed');
-    t.end();
-  });
+  t.ok(/Loading/.test(renderToString(app)), 'starts off loading');
+  await prepare(app);
+  t.ok(/Failed/.test(renderToString(app)), 'ends failed');
+  t.end();
 });

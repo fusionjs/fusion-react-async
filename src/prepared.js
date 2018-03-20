@@ -20,7 +20,15 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     },
     opts
   );
+  const prep = {
+    prepare: (...args) => Promise.resolve(prepare(...args)),
+    defer: opts.defer,
+  };
   class PreparedComponent extends Component {
+    constructor(props, context) {
+      super(props, context);
+      this[REACT_PREPARE] = prep;
+    }
     componentDidMount() {
       if (opts.componentDidMount) {
         Promise.resolve(prepare(this.props, this.context)).then(() => {
@@ -46,10 +54,6 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     OriginalComponent.displayName || OriginalComponent.name || '';
   PreparedComponent.contextTypes = opts.contextTypes;
   PreparedComponent.displayName = `PreparedComponent(${displayName})`;
-  PreparedComponent[REACT_PREPARE] = {
-    prepare: (...args) => Promise.resolve(prepare(...args)),
-    defer: opts.defer,
-  };
 
   return PreparedComponent;
 };
