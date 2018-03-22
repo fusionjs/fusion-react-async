@@ -386,3 +386,19 @@ tape('Preparing an async app with componentWillReceiveProps option', t => {
     t.end();
   });
 });
+
+tape('Preparing a Fragment', t => {
+  const app = (
+    <React.Fragment>
+      <span>1</span>
+      <span>2</span>
+    </React.Fragment>
+  );
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    const wrapper = shallow(<div>{app}</div>);
+    t.equal(wrapper.find('span').length, 2, 'has two children');
+    t.end();
+  });
+});
