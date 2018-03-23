@@ -402,3 +402,34 @@ tape('Preparing a Fragment', t => {
     t.end();
   });
 });
+
+tape('Preparing a fragment with async children', t => {
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  function SimplePresentational() {
+    numChildRenders++;
+    return <div>Hello World</div>;
+  }
+  const AsyncChild = prepared(props => {
+    numPrepares++;
+    t.equal(
+      props.data,
+      'test',
+      'passes props through to prepared component correctly'
+    );
+    return Promise.resolve();
+  })(SimplePresentational);
+  const app = (
+    <React.Fragment>
+      <AsyncChild data="test" />
+      <AsyncChild data="test" />
+    </React.Fragment>
+  );
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 2, 'runs prepare function twice');
+    t.equal(numChildRenders, 2, 'renders SimplePresentational twice');
+    t.end();
+  });
+});
