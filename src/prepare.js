@@ -41,7 +41,7 @@ function prepareElement(element, context) {
     return Promise.resolve([null, context]);
   }
   const {type, props} = element;
-  if (typeof type === 'string') {
+  if (typeof type === 'string' || type === React.Fragment) {
     return Promise.resolve([props.children, context]);
   }
   if (!isReactCompositeComponent(type)) {
