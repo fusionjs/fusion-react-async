@@ -106,7 +106,7 @@ export default () => (
 #### middleware
 
 ```js
-import {middleware} from 'fusion-react-async';
+import { middleware } from 'fusion-react-async';
 ```
 
 A middleware that adds a `PrepareProvider` to the React tree.
@@ -116,62 +116,63 @@ Consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instea
 #### split
 
 ```js
-import {split} from 'fusion-react-async';
+import { split } from 'fusion-react-async';
 
-const Component = split({load, LoadingComponent, ErrorComponent});
+const Component = split({ load, LoadingComponent, ErrorComponent });
 ```
 
-- `load: () => Promise` - Required. Load a component asynchronously. Typically, this should make a dynamic `import()` call.
+* `load: () => Promise` - Required. Load a component asynchronously. Typically, this should make a dynamic `import()` call.
   The Fusion compiler takes care of bundling the appropriate code and de-duplicating dependencies. The argument to `import` should be a string literal (not a variable). See [webpack docs](https://webpack.js.org/api/module-methods/#import-) for more information.
-- `LoadingComponent` - Required. A component to be displayed while the asynchronous component hasn't downloaded
-- `ErrorComponent` - Required. A component to be displayed if the asynchronous component could not be loaded
-- `Component` - A placeholder component that can be used in your view which will show the asynchronous component
+* `LoadingComponent` - Required. A component to be displayed while the asynchronous component hasn't downloaded
+* `ErrorComponent` - Required. A component to be displayed if the asynchronous component could not be loaded
+* `Component` - A placeholder component that can be used in your view which will show the asynchronous component
 
 #### prepare
 
 ```js
-import {prepare} from 'fusion-react-async';
+import { prepare } from 'fusion-react-async';
 
-const Component = prepare(element)
+const Component = prepare(element);
 ```
 
-- `Element: React.Element` - Required. A React element created via `React.createElement`
-- `Component: React.Component` - A React component
+* `Element: React.Element` - Required. A React element created via `React.createElement`
+* `Component: React.Component` - A React component
 
 Consider using [`fusion-react`](https://github.com/fusionjs/fusion-react) instead of setting up React manually and calling `prepare` directly, since that package does all of that for you.
 
 The `prepare` function recursively traverses the element rendering tree and awaits the side effects of components decorated with `prepared` (or `dispatched`).
 
-It should be used (and `await`-ed) *before* calling `renderToString` on the server. If any of the side effects throws, `prepare` will also throw.
+It should be used (and `await`-ed) _before_ calling `renderToString` on the server. If any of the side effects throws, `prepare` will also throw.
 
 #### prepared
 
 ```js
-import {prepared} from 'fusion-react-async';
+import { prepared } from 'fusion-react-async';
 
 const hoc = prepared(sideEffect, opts);
 ```
 
-- `sideEffect: : (props: Object, context: Object) => Promise` - Required. when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
-- `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, forceUpdate, contextTypes}` - Optional
-  - `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
-  - `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
-  - `componentDidMount: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called when the component is mounted.
-  - `componentWillReceiveProps: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again whenever the component receive props.
-  - `forceUpdate: boolean` - Optional. Defaults to `false`.
-  - `contextTypes: Object` - Optional. Custom React context types to add to the prepared component.
-- `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering
-  - `Component: React.Component` - Required.
+* `sideEffect: : (props: Object, context: Object) => Promise` - Required. when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
+* `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, forceUpdate, contextTypes}` - Optional
+  * `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
+  * `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
+  * `componentDidMount: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called when the component is mounted.
+  * [TO BE DEPRECATED] `componentWillReceiveProps: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again whenever the component receive props.
+  * `componentDidUpdate: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again right after updating occurs.
+  * `forceUpdate: boolean` - Optional. Defaults to `false`.
+  * `contextTypes: Object` - Optional. Custom React context types to add to the prepared component.
+* `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering
+  * `Component: React.Component` - Required.
 
 #### exclude
 
 ```js
-import {exclude} from 'fusion-react-async';
+import { exclude } from 'fusion-react-async';
 
 const NewComponent = exclude(Component);
 ```
 
-- `Component: React.Component` - Required. A component that should not be traversed via `prepare`.
-- `NewComponent: React.Component` - A component that is excluded from `prepare` traversal.
+* `Component: React.Component` - Required. A component that should not be traversed via `prepare`.
+* `NewComponent: React.Component` - A component that is excluded from `prepare` traversal.
 
 Stops `prepare` traversal at `Component`. Useful for optimizing the `prepare` traversal to visit the minimum number of nodes.

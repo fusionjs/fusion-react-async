@@ -15,6 +15,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       defer: false,
       componentDidMount: true,
       componentWillReceiveProps: false,
+      componentDidUpdate: false,
       contextTypes: {},
       forceUpdate: false,
     },
@@ -42,6 +43,12 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     componentWillReceiveProps(nextProps, nextContext) {
       if (opts.componentWillReceiveProps) {
         prepare(nextProps, nextContext);
+      }
+    }
+
+    componentDidUpdate() {
+      if (opts.componentDidUpdate) {
+        prepare(this.props, this.context);
       }
     }
 
