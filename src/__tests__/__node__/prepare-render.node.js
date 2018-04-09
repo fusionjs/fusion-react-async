@@ -387,6 +387,62 @@ tape('Preparing an async app with componentWillReceiveProps option', t => {
   });
 });
 
+tape('Preparing an async app with componentDidUpdate option', t => {
+  let numConstructors = 0;
+  let numRenders = 0;
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  class SimpleComponent extends Component {
+    constructor(props, context) {
+      super(props, context);
+      t.equal(
+        context.__IS_PREPARE__,
+        true,
+        'sets __IS_PREPARE__ to true in context'
+      );
+      numConstructors++;
+    }
+    render() {
+      numRenders++;
+      return <SimplePresentational />;
+    }
+  }
+  function SimplePresentational() {
+    numChildRenders++;
+    return <div>Hello World</div>;
+  }
+  const AsyncParent = prepared(
+    props => {
+      numPrepares++;
+      t.equal(
+        props.data,
+        'test',
+        'passes props through to prepared component correctly'
+      );
+      return Promise.resolve();
+    },
+    {
+      componentDidUpdate: true,
+    }
+  )(SimpleComponent);
+  const app = <AsyncParent data="test" />;
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 1, 'runs the prepare function once');
+    t.equal(numConstructors, 1, 'constructs SimpleComponent once');
+    t.equal(numRenders, 1, 'renders SimpleComponent once');
+    t.equal(numChildRenders, 1, 'renders SimplePresentational once');
+    // triggers componentDidMount
+    const wrapper = shallow(app);
+    t.equal(numPrepares, 2, 'runs prepare on componentDidMount');
+    // triggers componentDidUpdate
+    wrapper.setProps({test: true});
+    t.equal(numPrepares, 3, 'runs prepare on componentDidUpdate');
+    t.end();
+  });
+});
+
 tape('Preparing a Fragment', t => {
   const app = (
     <React.Fragment>

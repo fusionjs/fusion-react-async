@@ -11,5 +11,6 @@ import prepared from './prepared.js';
 export default prepared(Promise.resolve(), {
   componentDidMount: false,
   componentWillReceiveProps: false,
+  componentDidUpdate: false,
   defer: true,
 });
