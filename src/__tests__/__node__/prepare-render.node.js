@@ -489,3 +489,70 @@ tape('Preparing a fragment with async children', t => {
     t.end();
   });
 });
+
+tape('Preparing React.createContext()', t => {
+  const {Provider, Consumer} = React.createContext('light');
+
+  const app = (
+    <Provider value="light">
+      <span>1</span>
+      <Consumer>
+        <span>2</span>
+      </Consumer>
+    </Provider>
+  );
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    const wrapper = shallow(<div>{app}</div>);
+    t.equal(wrapper.find('span').length, 2, 'has two children');
+    t.end();
+  });
+});
+
+tape('Preparing React.createContext() with async children', t => {
+  const {Provider, Consumer} = React.createContext('light');
+
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  function SimplePresentational() {
+    numChildRenders++;
+
+    return (
+      <Consumer>
+        {theme => {
+          return <div>{theme}</div>;
+        }}
+      </Consumer>
+    );
+  }
+  const AsyncChild = prepared(props => {
+    numPrepares++;
+    t.equal(
+      props.data,
+      'test',
+      'passes props through to prepared component correctly'
+    );
+    return Promise.resolve();
+  })(SimplePresentational);
+
+  const app = (
+    <Provider value="dark">
+      <AsyncChild data="test" />
+      <AsyncChild data="test" />
+    </Provider>
+  );
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 2, 'runs prepare function twice');
+    t.equal(numChildRenders, 2, 'renders SimplePresentational twice');
+
+    t.equal(
+      shallow(<div>{app}</div>).html(),
+      '<div><div>dark</div><div>dark</div></div>',
+      'passes values via context'
+    );
+    t.end();
+  });
+});

@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import {isFragment, isContextConsumer, isContextProvider} from 'react-is';
 
 import isReactCompositeComponent from './utils/isReactCompositeComponent';
 import {isPrepared, getPrepare} from './prepared';
@@ -41,7 +42,12 @@ function prepareElement(element, context) {
     return Promise.resolve([null, context]);
   }
   const {type, props} = element;
-  if (typeof type === 'string' || type === React.Fragment) {
+  if (
+    typeof type === 'string' ||
+    isFragment(element) ||
+    isContextConsumer(element) ||
+    isContextProvider(element)
+  ) {
     return Promise.resolve([props.children, context]);
   }
   if (!isReactCompositeComponent(type)) {

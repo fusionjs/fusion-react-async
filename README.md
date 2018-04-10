@@ -153,7 +153,7 @@ const hoc = prepared(sideEffect, opts);
 ```
 
 * `sideEffect: : (props: Object, context: Object) => Promise` - Required. when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
-* `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, forceUpdate, contextTypes}` - Optional
+* `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, componentDidUpdate, forceUpdate, contextTypes}` - Optional
   * `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
   * `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
   * `componentDidMount: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called when the component is mounted.
