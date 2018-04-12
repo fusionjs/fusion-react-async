@@ -3,7 +3,10 @@
   "version": "1.2.1",
   "description": "Prepare you app state for async rendering",
   "repository": "fusionjs/fusion-react-async",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "browser": {
@@ -27,6 +30,7 @@
     "test": "npm run build-test && npm run just-test"
   },
   "dependencies": {
+    "fusion-core": "^1.2.2",
     "prop-types": "^15.5.8",
     "react-is": "^16.3.1"
   },
@@ -52,7 +56,8 @@
   },
   "peerDependencies": {
     "react": "14.x - 16.x",
-    "react-dom": "14.x - 16.x"
+    "react-dom": "14.x - 16.x",
+    "fusion-core": "^1.0.0"
   },
   "engines": {
     "node": ">= 8.9.0"
