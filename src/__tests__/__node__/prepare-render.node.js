@@ -2,6 +2,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 /* eslint-disable react/no-multi-comp */
@@ -17,7 +19,7 @@ tape('Preparing a sync app', t => {
   let numConstructors = 0;
   let numRenders = 0;
   let numChildRenders = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -51,7 +53,7 @@ tape('Preparing a sync app with nested children', t => {
   let numConstructors = 0;
   let numRenders = 0;
   let numChildRenders = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -134,7 +136,7 @@ tape('Preparing an async app', t => {
   let numRenders = 0;
   let numChildRenders = 0;
   let numPrepares = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -179,7 +181,7 @@ tape('Preparing an async app with nested asyncs', t => {
   let numRenders = 0;
   let numChildRenders = 0;
   let numPrepares = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -236,7 +238,7 @@ tape('Preparing an app with sibling async components', t => {
   let numRenders = 0;
   let numChildRenders = 0;
   let numPrepares = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -299,7 +301,7 @@ tape('Rendering a component triggers componentWillMount before render', t => {
   const orderedMethodCalls = [];
   const orderedChildMethodCalls = [];
 
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     componentWillMount() {
       orderedMethodCalls.push('componentWillMount');
     }
@@ -310,7 +312,7 @@ tape('Rendering a component triggers componentWillMount before render', t => {
     }
   }
 
-  class SimpleChildComponent extends Component {
+  class SimpleChildComponent extends Component<any> {
     componentWillMount() {
       orderedChildMethodCalls.push('componentWillMount');
     }
@@ -336,7 +338,7 @@ tape('Preparing an async app with componentWillReceiveProps option', t => {
   let numRenders = 0;
   let numChildRenders = 0;
   let numPrepares = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -392,7 +394,7 @@ tape('Preparing an async app with componentDidUpdate option', t => {
   let numRenders = 0;
   let numChildRenders = 0;
   let numPrepares = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any> {
     constructor(props, context) {
       super(props, context);
       t.equal(
@@ -445,6 +447,7 @@ tape('Preparing an async app with componentDidUpdate option', t => {
 
 tape('Preparing a Fragment', t => {
   const app = (
+    // $FlowFixMe
     <React.Fragment>
       <span>1</span>
       <span>2</span>
@@ -476,6 +479,7 @@ tape('Preparing a fragment with async children', t => {
     return Promise.resolve();
   })(SimplePresentational);
   const app = (
+    // $FlowFixMe
     <React.Fragment>
       <AsyncChild data="test" />
       <AsyncChild data="test" />
@@ -491,6 +495,7 @@ tape('Preparing a fragment with async children', t => {
 });
 
 tape('Preparing React.createContext()', t => {
+  // $FlowFixMe
   const {Provider, Consumer} = React.createContext('light');
 
   const app = (
@@ -511,6 +516,7 @@ tape('Preparing React.createContext()', t => {
 });
 
 tape('Preparing React.createContext() with async children', t => {
+  // $FlowFixMe
   const {Provider, Consumer} = React.createContext('light');
 
   let numChildRenders = 0;

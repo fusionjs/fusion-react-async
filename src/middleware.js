@@ -2,12 +2,17 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 import React from 'react';
+
+import type {Middleware} from 'fusion-core';
+
 import PrepareProvider from './prepare-provider';
 
-export default function(ctx, next) {
+const middleware: Middleware = function(ctx, next) {
   if (__NODE__ && !ctx.element) {
     return next();
   }
@@ -17,4 +22,6 @@ export default function(ctx, next) {
     </PrepareProvider>
   );
   return next();
-}
+};
+
+export default middleware;

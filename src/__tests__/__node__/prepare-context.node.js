@@ -2,6 +2,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 /* eslint-disable react/no-multi-comp */
@@ -13,7 +15,7 @@ tape('Preparing a sync app passing through context', t => {
   let numConstructors = 0;
   let numRenders = 0;
   let numChildRenders = 0;
-  class SimpleComponent extends Component {
+  class SimpleComponent extends Component<any, any> {
     constructor(props, context) {
       super(props, context);
       t.equal(

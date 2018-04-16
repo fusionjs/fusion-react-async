@@ -1,3 +1,11 @@
+/** Copyright (c) 2018 Uber Technologies, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
+ */
+
 import tape from 'tape-cup';
 import React from 'react';
 import {renderToString} from 'react-dom/server';
@@ -5,12 +13,12 @@ import Provider from '../../prepare-provider';
 import {prepare} from '../../index.js';
 
 tape('Handling context', async t => {
-  class Child extends React.Component {
+  class Child extends React.Component<any, any> {
     static contextTypes = {
       field: () => {},
     };
 
-    constructor(props) {
+    constructor(props: *) {
       super(props);
     }
 
@@ -19,7 +27,7 @@ tape('Handling context', async t => {
     }
   }
 
-  class Parent extends React.Component {
+  class Parent extends React.Component<any, any> {
     static childContextTypes = {
       field: () => {},
     };
