@@ -51,7 +51,10 @@ function prepareElement(element, context) {
     return Promise.resolve([props.children, context]);
   }
   if (!isReactCompositeComponent(type)) {
-    return Promise.resolve([type(props, context), context]);
+    // If the component render function returns null the `type` will be null
+    const renderedChildren =
+      typeof type === 'function' ? type(props, context) : [];
+    return Promise.resolve([renderedChildren, context]);
   }
   const CompositeComponent = type;
   const instance = new CompositeComponent(props, context);
