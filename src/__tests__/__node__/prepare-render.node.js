@@ -501,9 +501,7 @@ tape('Preparing React.createContext()', t => {
   const app = (
     <Provider value="light">
       <span>1</span>
-      <Consumer>
-        <span>2</span>
-      </Consumer>
+      <Consumer>{() => <span>2</span>}</Consumer>
     </Provider>
   );
   const p = prepare(app);
