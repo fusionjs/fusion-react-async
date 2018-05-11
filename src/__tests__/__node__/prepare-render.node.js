@@ -508,7 +508,7 @@ tape('Preparing React.createContext()', t => {
   t.ok(p instanceof Promise, 'prepare returns a promise');
   p.then(() => {
     const wrapper = shallow(<div>{app}</div>);
-    t.equal(wrapper.find('span').length, 2, 'has two children');
+    t.equal(wrapper.find('span').length, 1, 'one span is rendered');
     t.end();
   });
 });
