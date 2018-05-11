@@ -501,16 +501,14 @@ tape('Preparing React.createContext()', t => {
   const app = (
     <Provider value="light">
       <span>1</span>
-      <Consumer>
-        <span>2</span>
-      </Consumer>
+      <Consumer>{() => <span>2</span>}</Consumer>
     </Provider>
   );
   const p = prepare(app);
   t.ok(p instanceof Promise, 'prepare returns a promise');
   p.then(() => {
     const wrapper = shallow(<div>{app}</div>);
-    t.equal(wrapper.find('span').length, 2, 'has two children');
+    t.equal(wrapper.find('span').length, 1, 'one span is rendered');
     t.end();
   });
 });
