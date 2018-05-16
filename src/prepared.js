@@ -25,6 +25,8 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     prepare: (...args) => Promise.resolve(prepare(...args)),
     defer: opts.defer,
   };
+  // Disable eslint for deprecated componentWillReceiveProps
+  // eslint-disable-next-line react/no-deprecated
   class PreparedComponent extends Component {
     constructor(props, context) {
       super(props, context);
