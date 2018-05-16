@@ -301,6 +301,8 @@ tape('Rendering a component triggers componentWillMount before render', t => {
   const orderedMethodCalls = [];
   const orderedChildMethodCalls = [];
 
+  // Disable eslint for deprecated componentWillMount
+  // eslint-disable-next-line react/no-deprecated
   class SimpleComponent extends Component<any> {
     componentWillMount() {
       orderedMethodCalls.push('componentWillMount');
@@ -312,6 +314,8 @@ tape('Rendering a component triggers componentWillMount before render', t => {
     }
   }
 
+  // Disable eslint for deprecated componentWillMount
+  // eslint-disable-next-line react/no-deprecated
   class SimpleChildComponent extends Component<any> {
     componentWillMount() {
       orderedChildMethodCalls.push('componentWillMount');
