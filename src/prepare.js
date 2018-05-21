@@ -2,6 +2,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 import React from 'react';
@@ -32,6 +34,7 @@ function prepareComponentInstance(instance) {
   if (prepareConfig.defer) {
     return Promise.resolve(prepareConfig);
   }
+  // $FlowFixMe
   return prepareConfig.prepare(instance.props, instance.context).then(() => {
     return prepareConfig;
   });
@@ -57,7 +60,7 @@ function prepareElement(element, context) {
   const instance = new CompositeComponent(props, context);
   instance.props = props;
   instance.context = context;
-  return prepareComponentInstance(instance, context).then(prepareConfig => {
+  return prepareComponentInstance(instance).then(prepareConfig => {
     // Stop traversing if the component is defer or boundary
     if (prepareConfig.defer || prepareConfig.boundary) {
       return Promise.resolve([null, context]);
@@ -77,7 +80,7 @@ function _prepare(element, context) {
   });
 }
 
-function prepare(element, context = {}) {
+function prepare(element: any, context: any = {}) {
   context.__IS_PREPARE__ = true;
   return _prepare(element, context).then(() => {
     context.__IS_PREPARE__ = false;

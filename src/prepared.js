@@ -2,12 +2,15 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 import React, {Component} from 'react';
 
 import {REACT_PREPARE} from './constants';
 
+// $FlowFixMe
 const prepared = (prepare, opts = {}) => OriginalComponent => {
   opts = Object.assign(
     {
@@ -27,9 +30,11 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
   };
   // Disable eslint for deprecated componentWillReceiveProps
   // eslint-disable-next-line react/no-deprecated
-  class PreparedComponent extends Component {
+  class PreparedComponent extends Component<*, *> {
+    // $FlowFixMe
     constructor(props, context) {
       super(props, context);
+      // $FlowFixMe
       this[REACT_PREPARE] = prep;
     }
     componentDidMount() {
@@ -42,6 +47,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
       }
     }
 
+    // $FlowFixMe
     componentWillReceiveProps(nextProps, nextContext) {
       if (opts.componentWillReceiveProps) {
         prepare(nextProps, nextContext);
@@ -67,6 +73,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
   return PreparedComponent;
 };
 
+// $FlowFixMe
 function isPrepared(CustomComponent) {
   return (
     CustomComponent[REACT_PREPARE] &&
@@ -74,6 +81,7 @@ function isPrepared(CustomComponent) {
   );
 }
 
+// $FlowFixMe
 function getPrepare(CustomComponent) {
   return CustomComponent[REACT_PREPARE] || {};
 }

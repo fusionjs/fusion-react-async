@@ -2,6 +2,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 import React from 'react';
@@ -17,9 +19,11 @@ const contextTypes = {
 
 // TODO(#7): Figure out what we are going to do with chunks/preloading
 if (__NODE__) {
+  // $FlowFixMe
   contextTypes.preloadChunks = PropTypes.array.isRequired;
 }
 
+// $FlowFixMe
 export default function withAsyncComponent({
   defer,
   load,
@@ -56,6 +60,7 @@ export default function withAsyncComponent({
       } catch (e) {
         componentPromise = Promise.reject(e);
       }
+      // $FlowFixMe
       chunkIds = componentPromise[CHUNKS_KEY] || [];
 
       if (__NODE__) {
