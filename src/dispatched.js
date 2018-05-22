@@ -2,6 +2,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
 
 import PropTypes from 'prop-types';
@@ -12,6 +14,7 @@ const storeShape = PropTypes.shape({
   dispatch: PropTypes.func.isRequired,
 });
 
+// $FlowFixMe
 const dispatched = (prepareUsingDispatch, opts = {}) => OriginalComponent => {
   const prepare = (props, context) => {
     return prepareUsingDispatch(props, context.store.dispatch);

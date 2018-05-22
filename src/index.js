@@ -17,6 +17,7 @@ import middleware from './middleware'; //typed
 
 const prepareTyped: (
   element: React.Element<any>
+  // $FlowFixMe
 ) => Promise<React.ComponentType<any>> = prepare;
 
 const preparedTyped: (
