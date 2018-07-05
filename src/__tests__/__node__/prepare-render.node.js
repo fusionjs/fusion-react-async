@@ -11,7 +11,6 @@ import tape from 'tape-cup';
 import React, {Component} from 'react';
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import {renderToString} from 'react-dom/server';
 import {prepare, prepared} from '../../index.js';
 
 Enzyme.configure({adapter: new Adapter()});
