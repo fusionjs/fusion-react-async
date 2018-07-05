@@ -1,9 +1,12 @@
 {
   "name": "fusion-react-async",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Prepare you app state for async rendering",
   "repository": "fusionjs/fusion-react-async",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "browser": {
