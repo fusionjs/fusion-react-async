@@ -3,10 +3,7 @@
   "version": "1.2.2",
   "description": "Prepare you app state for async rendering",
   "repository": "fusionjs/fusion-react-async",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "browser": {
@@ -48,11 +45,11 @@
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.8.2",
     "flow-bin": "^0.72.0",
-    "nyc": "11.8.0",
+    "nyc": "^11.8.0",
     "prettier": "1.12.1",
-    "react": "16.3.2",
-    "react-dom": "16.3.2",
-    "tape-cup": "4.7.1"
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "tape-cup": "^4.7.1"
   },
   "peerDependencies": {
     "fusion-core": "^1.0.0",

@@ -523,17 +523,21 @@ tape('Preparing React.createContext() with async children', t => {
 
   let numChildRenders = 0;
   let numPrepares = 0;
+  let numRenderPropsRenders = 0;
   function SimplePresentational() {
     numChildRenders++;
 
     return (
       <Consumer>
         {theme => {
+          numRenderPropsRenders++;
+          t.equal(theme, 'dark', 'passes the context value correctly');
           return <div>{theme}</div>;
         }}
       </Consumer>
     );
   }
+
   const AsyncChild = prepared(props => {
     numPrepares++;
     t.equal(
@@ -554,6 +558,7 @@ tape('Preparing React.createContext() with async children', t => {
   t.ok(p instanceof Promise, 'prepare returns a promise');
   p.then(() => {
     t.equal(numPrepares, 2, 'runs prepare function twice');
+    t.equal(numRenderPropsRenders, 2, 'prepares consumer render props');
     t.equal(numChildRenders, 2, 'renders SimplePresentational twice');
 
     t.equal(
@@ -561,6 +566,100 @@ tape('Preparing React.createContext() with async children', t => {
       '<div><div>dark</div><div>dark</div></div>',
       'passes values via context'
     );
+    t.end();
+  });
+});
+
+tape('Preparing React.createContext() with deep async children', t => {
+  // $FlowFixMe
+  const {Provider, Consumer} = React.createContext('light');
+
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  let numRenderPropsRenders = 0;
+  function SimplePresentational() {
+    numChildRenders++;
+    return <div>Hello World</div>;
+  }
+
+  const AsyncChild = prepared(props => {
+    numPrepares++;
+    t.equal(
+      props.data,
+      'test',
+      'passes props through to prepared component correctly'
+    );
+    return Promise.resolve();
+  })(SimplePresentational);
+
+  const ConsumerComponent = () => {
+    return (
+      <Consumer>
+        {theme => {
+          numRenderPropsRenders++;
+          t.equal(theme, 'dark');
+          return <AsyncChild data="test" />;
+        }}
+      </Consumer>
+    );
+  };
+
+  const app = (
+    <Provider value="dark">
+      <ConsumerComponent />
+    </Provider>
+  );
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 1, 'runs prepare function');
+    t.equal(numChildRenders, 1, 'prepares SimplePresentational');
+    t.equal(numRenderPropsRenders, 1, 'runs render prop function');
+    t.end();
+  });
+});
+
+tape('Preparing React.createContext() using the default provider value', t => {
+  // $FlowFixMe
+  const {Consumer} = React.createContext('light');
+
+  let numChildRenders = 0;
+  let numPrepares = 0;
+  let numRenderPropsRenders = 0;
+  function SimplePresentational() {
+    numChildRenders++;
+    return <div>Hello World</div>;
+  }
+
+  const AsyncChild = prepared(props => {
+    numPrepares++;
+    t.equal(
+      props.data,
+      'test',
+      'passes props through to prepared component correctly'
+    );
+    return Promise.resolve();
+  })(SimplePresentational);
+
+  const ConsumerComponent = () => {
+    return (
+      <Consumer>
+        {theme => {
+          numRenderPropsRenders++;
+          t.equal(theme, 'light');
+          return <AsyncChild data="test" />;
+        }}
+      </Consumer>
+    );
+  };
+
+  const app = <ConsumerComponent />;
+  const p = prepare(app);
+  t.ok(p instanceof Promise, 'prepare returns a promise');
+  p.then(() => {
+    t.equal(numPrepares, 1, 'runs prepare function');
+    t.equal(numChildRenders, 1, 'prepares SimplePresentational');
+    t.equal(numRenderPropsRenders, 1, 'runs render prop function');
     t.end();
   });
 });

@@ -45,12 +45,14 @@ function prepareElement(element, context) {
     return Promise.resolve([null, context]);
   }
   const {type, props} = element;
-  if (
-    typeof type === 'string' ||
-    isFragment(element) ||
-    isContextConsumer(element) ||
-    isContextProvider(element)
-  ) {
+  if (isContextConsumer(element)) {
+    return Promise.resolve([props.children(type._currentValue), context]);
+  }
+  if (isContextProvider(element)) {
+    type._context._currentValue = props.value;
+    return Promise.resolve([props.children, context]);
+  }
+  if (typeof type === 'string' || isFragment(element)) {
     return Promise.resolve([props.children, context]);
   }
   if (!isReactCompositeComponent(type)) {
