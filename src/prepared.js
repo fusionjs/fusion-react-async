@@ -11,7 +11,7 @@ import React, {Component} from 'react';
 import {REACT_PREPARE} from './constants';
 
 // $FlowFixMe
-const prepared = (prepare, opts = {}) => OriginalComponent => {
+const prepared = (sideEffect, opts = {}) => OriginalComponent => {
   opts = Object.assign(
     {
       boundary: false,
@@ -25,7 +25,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     opts
   );
   const prep = {
-    prepare: (...args) => Promise.resolve(prepare(...args)),
+    prepare: (...args) => Promise.resolve(sideEffect(...args)),
     defer: opts.defer,
   };
   // Disable eslint for deprecated componentWillReceiveProps
@@ -39,7 +39,7 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     }
     componentDidMount() {
       if (opts.componentDidMount) {
-        Promise.resolve(prepare(this.props, this.context)).then(() => {
+        Promise.resolve(sideEffect(this.props, this.context)).then(() => {
           if (opts.forceUpdate) {
             this.forceUpdate(); // TODO(#10) document
           }
@@ -50,13 +50,13 @@ const prepared = (prepare, opts = {}) => OriginalComponent => {
     // $FlowFixMe
     componentWillReceiveProps(nextProps, nextContext) {
       if (opts.componentWillReceiveProps) {
-        prepare(nextProps, nextContext);
+        sideEffect(nextProps, nextContext);
       }
     }
 
     componentDidUpdate() {
       if (opts.componentDidUpdate) {
-        prepare(this.props, this.context);
+        sideEffect(this.props, this.context);
       }
     }
 
