@@ -152,16 +152,16 @@ import { prepared } from 'fusion-react-async';
 const hoc = prepared(sideEffect, opts);
 ```
 
-* `sideEffect: : (props: Object, context: Object) => Promise` - Required. when `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
+* `sideEffect: (props: Object, context: Object) => Promise` - Required. When `prepare` is called, `sideEffect` is called (and awaited) before continuing the rendering traversal.
 * `opts: {defer, boundary, componentDidMount, componentWillReceiveProps, componentDidUpdate, forceUpdate, contextTypes}` - Optional
-  * `defer: boolean` - Optional. Defaults to `true`. If the component is deferred, skip the prepare step
-  * `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary
+  * `defer: boolean` - Optional. Defaults to `false`. If the component is deferred, skip the prepare step.
+  * `boundary: boolean` - Optional. Defaults to `false`. Stop traversing if the component is defer or boundary.
   * `componentDidMount: boolean` - Optional. Defaults to `true`. On the browser, `sideEffect` is called when the component is mounted.
   * [TO BE DEPRECATED] `componentWillReceiveProps: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again whenever the component receive props.
   * `componentDidUpdate: boolean` - Optional. Defaults to `false`. On the browser, `sideEffect` is called again right after updating occurs.
   * `forceUpdate: boolean` - Optional. Defaults to `false`.
   * `contextTypes: Object` - Optional. Custom React context types to add to the prepared component.
-* `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering
+* `hoc: (Component: React.Component) => React.Component` - A higher-order component that returns a component that awaits for async side effects before rendering.
   * `Component: React.Component` - Required.
 
 #### exclude
