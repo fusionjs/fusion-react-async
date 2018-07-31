@@ -17,7 +17,7 @@ import middleware from './middleware'; //typed
 
 // eslint-disable-next-line no-console
 console.warn(`
-Note: "fusion-react-async" has been deprecated and merged into "fusion-react".
+Note: "fusion-react-async" has been deprecated and merged into "fusion-react@1.1.0".
 Please replace imports to "fusion-react-async" with "fusion-react".
 `);
 
