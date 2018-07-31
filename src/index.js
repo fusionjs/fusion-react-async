@@ -15,6 +15,12 @@ import split from './split';
 import exclude from './traverse-exclude';
 import middleware from './middleware'; //typed
 
+// eslint-disable-next-line no-console
+console.warn(`
+Note: "fusion-react-async" has been deprecated and merged into "fusion-react".
+Please replace imports to "fusion-react-async" with "fusion-react".
+`);
+
 const prepareTyped: (
   element: React.Element<any>
   // $FlowFixMe

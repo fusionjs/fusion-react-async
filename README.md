@@ -1,3 +1,19 @@
+# Deprecation notice
+
+This package has been merged into [`fusion-react`](https://github.com/fusionjs/fusion-react).
+
+```diff
+import {
+  dispatched,
+  prepare,
+  prepared,
+  split,
+  exclude,
+  middleware,
+- } from "fusion-react-async";
++ } from "fusion-react";
+```
+
 # fusion-react-async
 
 [![Build status](https://badge.buildkite.com/7037953b28b5737bad5844360b3ceef38b3aab09b6fd31587d.svg?branch=master)](https://buildkite.com/uberopensource/fusion-react-async)
